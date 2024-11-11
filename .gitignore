@@ -1,7 +1,9 @@
-# VSCode #
+# My stuff #
 ##########
 .vscode
 __pycache__
+flask_session
+
 
 # Compiled source #
 ###################
