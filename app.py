@@ -23,4 +23,10 @@ def index():
         return flask.render_template("index.html")
     else:
         return flask.render_template("index.html")
-       
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if flask.request.method == "POST":
+        return flask.render_template("register.html")
+    else:
+        return flask.render_template("register.html")
