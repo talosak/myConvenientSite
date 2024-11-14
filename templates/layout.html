@@ -9,7 +9,13 @@
         <link href="/static/styles.css" rel="stylesheet">
         <title>MyConvenientSite - {% block title %}{% endblock %}</title>
     </head>
-    <body>
+    <body class="bg-dark">
+        <nav class="navbar-dark navbar navbar-expand-md border border-secondary bg-dark">
+            <div class="container-fluid">
+                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button"></button>
+                Hello
+            </div>
+        </nav>
         <main>
             {% block main %}{% endblock %}
         </main>
