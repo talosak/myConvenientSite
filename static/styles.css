@@ -1,4 +1,9 @@
 * {
-    color: #dddddd
+    color: #dddddd;
 }
 
+.mcs-logo {
+    font-size: 48px;
+    font-weight: 600;
+    text-decoration: none;
+}
