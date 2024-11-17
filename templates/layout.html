@@ -21,7 +21,7 @@
                             <li class="nav-item"><a class="nav-link" href="/">Placeholder</a></li>
                         </ul>
                         <ul class="navbar-nav ms-auto mt-0">
-                            <li class="nav-item"><a class="nav-link" href="/register">Log out</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/logout">Log out</a></li>
                         </ul>
                     {% else %}
                         <ul class="navbar-nav ms-auto mt-0">
@@ -32,6 +32,7 @@
                 </div>
             </div>
         </nav>
+        <br>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -41,18 +42,21 @@
                         <header>
                             <div class="alert alert-success-dark alert-dismissable mb-0 me-5 text-center" role="alert">
                                 {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         </header>
                     {% elif category == 'flash-failure' %}
                     <header>
                         <div class="alert alert-danger-dark alert-dismissable mb-0 me-5 text-center" role="alert">
                             {{ message }}
+                            <button type="button" class="btn-close pt-3" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </header>
                     {% else %}
                     <header>
                         <div class="alert alert-info-dark alert-dismissable mb-0 me-5 text-center" role="alert">
                             {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </header>
                     {% endif %}

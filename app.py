@@ -37,6 +37,29 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if flask.request.method == "POST":
-        return flask.render_template("register.html")
+        if not flask.request.form.get("username") or not flask.request.form.get("password") or not flask.request.form.get("confirmation"):
+             flask.flash("Username, password or confirmation missing", "flash-failure")
+             return flask.redirect("/register")
+        username = flask.request.form.get("username")
+        password = flask.request.form.get("password")
+        confirmation = flask.request.form.get("confirmation")
+        if password != confirmation:
+             flask.flash("Password doesn't match confirmation", "flash-failure")
+             return flask.redirect("/register")
+        db = connectDB()
+        if len(db.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchall()) != 0:
+             db.close()
+             flask.flash("Username is already taken", "flash-failure")
+             return flask.redirect("/register")
+        db.execute("INSERT INTO users (username, passwordHash) VALUES (?, ?)", (username, generate_password_hash(password)))
+        db.commit()
+        flask.session["user_id"] = db.execute("SELECT id FROM users WHERE username = ?", (username,)).fetchone()["id"]
+        db.close()
+        return flask.redirect("/")
     else:
         return flask.render_template("register.html")
+    
+@app.route("/logout")
+def logout():
+    flask.session.clear()
+    return flask.redirect("/")
