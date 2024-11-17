@@ -17,9 +17,10 @@ def connectDB():
 def index():
     if flask.request.method == "POST":
         db = connectDB()
-        db.execute("INSERT INTO example (example1, example2) VALUES (?, ?)", (20, 'success!'))
+        db.execute("INSERT INTO example (example1, example2) VALUES (?, ?)", (20, 'success'))
         db.commit()
         db.close()
+        flask.flash("Example successful", "flash-success")
         return flask.render_template("index.html")
     else:
         return flask.render_template("index.html")

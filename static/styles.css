@@ -7,3 +7,15 @@
     font-weight: 600;
     text-decoration: none;
 }
+
+.nav-item {
+    font-size: 22px;
+}
+
+.flash-success {
+    color: #00a000
+}
+
+.flash-failure {
+    color: #e00000
+}

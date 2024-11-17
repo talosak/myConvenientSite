@@ -13,10 +13,54 @@
     <body class="bg-dark">
         <nav class="navbar-dark navbar navbar-expand-md border-bottom border-secondary bg-dark">
             <div class="container-fluid">
-                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button"></button>
                 <a href="/" class="mcs-logo"><span style="color: #ee81ff">M</span><span style="color: #ff00ff">C</span><span style="color: #a000b2">S</span><img style="position: relative; top: -5px; left: 3px" src="static/favicon.ico"></a>
+                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbar">
+                    {% if session["user_id"] %}
+                        <ul class="navbar-nav me-auto mt-0">
+                            <li class="nav-item"><a class="nav-link" href="/">Placeholder</a></li>
+                        </ul>
+                        <ul class="navbar-nav ms-auto mt-0">
+                            <li class="nav-item"><a class="nav-link" href="/register">Log out</a></li>
+                        </ul>
+                    {% else %}
+                        <ul class="navbar-nav ms-auto mt-0">
+                            <li class="nav-item"><a class="nav-link" href="/login">Log in</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
         </nav>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    {% if category == 'flash-success' %}
+                        <header>
+                            <div class="alert alert-success alert-dismissable mb-0 text-center" role="alert">
+                                {{ message }}
+                            </div>
+                        </header>
+                    {% elif category == 'flash-failure' %}
+                    <header>
+                        <div class="alert alert-danger alert-dismissable mb-0 text-center" role="alert">
+                            {{ message }}
+                        </div>
+                    </header>
+                    {% else %}
+                    <header>
+                        <div class="alert alert-info alert-dismissable mb-0 text-center" role="alert">
+                            {{ message }}
+                        </div>
+                    </header>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
         <main>
             {% block main %}{% endblock %}
         </main>
