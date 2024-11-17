@@ -15,6 +15,8 @@ def connectDB():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    if flask.session.get("user_id") is None:
+            return flask.redirect("/login")
     if flask.request.method == "POST":
         db = connectDB()
         db.execute("INSERT INTO example (example1, example2) VALUES (?, ?)", (20, 'success'))
@@ -24,6 +26,13 @@ def index():
         return flask.render_template("index.html")
     else:
         return flask.render_template("index.html")
+    
+@app.route("/login", methods=["GET", "POST"])
+def login():
+     if flask.request.method == "POST":
+          return flask.render_template("login.html")
+     else:
+          return flask.render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

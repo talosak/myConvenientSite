@@ -32,3 +32,31 @@
     border-color: #3120a2;
     font-size: 22px;
 }
+
+.btn-pink {
+    background-color: #401040;
+    border-color: #401040;
+    color: #cc20cc;
+}
+
+.btn-pink:hover {
+    background-color: #601560;
+    border-color: #902090;
+}
+
+.btn-pink:active {
+    background-color: #802080 !important;
+    border-color: #b030b0 !important;
+}
+
+.input-text-default {
+    background-color: #ddccdd;
+    border-color: #ddccdd;
+}
+
+.input-text-default:focus {
+    background-color: #ddccdd;
+    border-color: #dd00dd;
+    outline: 3.5px solid rgba(255, 0, 255, 0.25);
+    box-shadow: none;
+}
