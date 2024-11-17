@@ -12,10 +12,23 @@
     font-size: 22px;
 }
 
-.flash-success {
-    color: #00a000
+.alert-success-dark {
+    background-color: #153714;
+    color: #20cc31;
+    border-color: #20a231;
+    font-size: 22px;
 }
 
-.flash-failure {
-    color: #e00000
+.alert-danger-dark {
+    background-color: #371415;
+    color: #cc3120;
+    border-color: #a23120;
+    font-size: 22px;
+}
+
+.alert-info-dark {
+    background-color: #141537;
+    color: #3120cc;
+    border-color: #3120a2;
+    font-size: 22px;
 }

@@ -39,19 +39,19 @@
                 {% for category, message in messages %}
                     {% if category == 'flash-success' %}
                         <header>
-                            <div class="alert alert-success alert-dismissable mb-0 text-center" role="alert">
+                            <div class="alert alert-success-dark alert-dismissable mb-0 me-5 text-center" role="alert">
                                 {{ message }}
                             </div>
                         </header>
                     {% elif category == 'flash-failure' %}
                     <header>
-                        <div class="alert alert-danger alert-dismissable mb-0 text-center" role="alert">
+                        <div class="alert alert-danger-dark alert-dismissable mb-0 me-5 text-center" role="alert">
                             {{ message }}
                         </div>
                     </header>
                     {% else %}
                     <header>
-                        <div class="alert alert-info alert-dismissable mb-0 text-center" role="alert">
+                        <div class="alert alert-info-dark alert-dismissable mb-0 me-5 text-center" role="alert">
                             {{ message }}
                         </div>
                     </header>
