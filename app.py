@@ -30,7 +30,22 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
      if flask.request.method == "POST":
-          return flask.render_template("login.html")
+        if not flask.request.form.get("username") or not flask.request.form.get("password"):
+            flask.flash("Username or password missing", "flash-failure")
+            return flask.redirect("/login")
+        username = flask.request.form.get("username")
+        password = flask.request.form.get("password")
+        db = connectDB()
+        if len(db.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchall()) == 0:
+             db.close()
+             flask.flash("There is no user with that name", "flash-failure")
+             return flask.redirect("/login")
+        if not check_password_hash(db.execute("SELECT passwordHash FROM users WHERE username = ?", (username,)).fetchone()["passwordHash"], password):
+            db.close()
+            flask.flash("Incorrect password", "flash-failure")
+            return flask.redirect("/login")
+        flask.session["user_id"] = db.execute("SELECT id FROM users WHERE username = ?", (username,)).fetchone()["id"]
+        return flask.redirect("/")
      else:
           return flask.render_template("login.html")
 
