@@ -3,6 +3,7 @@ import flask
 import flask_session
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 
 app = flask.Flask(__name__)
 app.config["SESSION_TYPE"] = "filesystem"
@@ -17,15 +18,10 @@ def connectDB():
 def index():
     if flask.session.get("user_id") is None:
             return flask.redirect("/login")
-    if flask.request.method == "POST":
-        db = connectDB()
-        db.execute("INSERT INTO example (example1, example2) VALUES (?, ?)", (20, 'success'))
-        db.commit()
-        db.close()
-        flask.flash("Example successful", "flash-success")
-        return flask.render_template("index.html")
-    else:
-        return flask.render_template("index.html")
+    db = connectDB()
+    username = db.execute("SELECT username FROM users WHERE id = ?", (flask.session["user_id"],)).fetchone()["username"]
+
+    return flask.render_template("index.html", username=username)
     
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -48,6 +44,11 @@ def login():
         return flask.redirect("/")
      else:
           return flask.render_template("login.html")
+     
+@app.route("/logout")
+def logout():
+    flask.session.clear()
+    return flask.redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -61,6 +62,9 @@ def register():
         if password != confirmation:
              flask.flash("Password doesn't match confirmation", "flash-failure")
              return flask.redirect("/register")
+        if len(username) > 12:
+             flask.flash("Username can't be longer than 12 letters", "flash-failure")
+             return flask.redirect("/register")
         db = connectDB()
         if len(db.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchall()) != 0:
              db.close()
@@ -73,8 +77,3 @@ def register():
         return flask.redirect("/")
     else:
         return flask.render_template("register.html")
-    
-@app.route("/logout")
-def logout():
-    flask.session.clear()
-    return flask.redirect("/")

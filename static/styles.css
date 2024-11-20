@@ -61,3 +61,11 @@
     outline: 3.5px solid rgba(255, 0, 255, 0.25);
     box-shadow: none;
 }
+
+.text-BIG {
+    font-size: 100px;
+}
+
+.text-slightly-less-BIG {
+    font-size: 75px;
+}
