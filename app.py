@@ -14,13 +14,13 @@ def connectDB():
     db.row_factory = sqlite3.Row
     return db
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
     if flask.session.get("user_id") is None:
             return flask.redirect("/login")
     db = connectDB()
     username = db.execute("SELECT username FROM users WHERE id = ?", (flask.session["user_id"],)).fetchone()["username"]
-
+    db.close()
     return flask.render_template("index.html", username=username)
     
 @app.route("/login", methods=["GET", "POST"])
@@ -47,6 +47,8 @@ def login():
      
 @app.route("/logout")
 def logout():
+    if flask.session.get("user_id") is None:
+            return flask.redirect("/login")
     flask.session.clear()
     return flask.redirect("/")
 
@@ -77,3 +79,4 @@ def register():
         return flask.redirect("/")
     else:
         return flask.render_template("register.html")
+    
