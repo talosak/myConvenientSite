@@ -22,6 +22,15 @@ def index():
     username = db.execute("SELECT username FROM users WHERE id = ?", (flask.session["user_id"],)).fetchone()["username"]
     db.close()
     return flask.render_template("index.html", username=username)
+
+@app.route("/dateandtime")
+def dateandtime():
+     if flask.session.get("user_id") is None:
+            return flask.redirect("/login")
+     now = datetime.now()
+     date = now.strftime("%d/%m/%Y")
+     time = now.strftime("%H:%M:%S")
+     return flask.render_template("dateandtime.html", date=date, time=time)
     
 @app.route("/login", methods=["GET", "POST"])
 def login():
