@@ -23,6 +23,12 @@ def index():
     db.close()
     return flask.render_template("index.html", username=username)
 
+@app.route("/calculator")
+def calculator():
+     if flask.session.get("user_id") is None:
+          return flask.redirect("/login")
+     return flask.render_template("calculator.html")
+
 @app.route("/dateandtime")
 def dateandtime():
      if flask.session.get("user_id") is None:
