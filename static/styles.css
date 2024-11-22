@@ -69,3 +69,20 @@
 .text-slightly-less-BIG {
     font-size: 75px;
 }
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-calculator { 
+    width: 100%; 
+    padding: 20px 40px; 
+    background-color: #401040;
+    border-color: #501050;
+    color: #cc20cc;
+    font-size: 26px;
+    font-weight: bold; 
+    border: none;
+}
+
