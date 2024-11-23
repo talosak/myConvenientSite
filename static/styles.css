@@ -70,6 +70,10 @@
     font-size: 75px;
 }
 
+.text-slightly-more-less-BIG {
+    font-size: 50px;
+}
+
 table {
     margin-left: auto;
     margin-right: auto;
@@ -86,3 +90,6 @@ table {
     border: none;
 }
 
+#calculator-result {
+    font-size: 40px;
+}

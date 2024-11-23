@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    RNG
+{% endblock %}
+
+{% block main %}
+    
+    <div class="container">
+        <form action="/rng" method="post">
+            <div class="row">
+                <h1 class="text-slightly-less-BIG">Generate a random number between <input type="text" class="text-slightly-more-less-BIG input-text-default mx-auto w-auto form-control" placeholder="Min" name="min"> and <input type="text" class="text-slightly-more-less-BIG input-text-default mx-auto w-auto form-control" placeholder="Max" name="max"></h1>
+            </div> 
+            <button class="text-slightly-more-less-BIG btn btn-pink" type="submit">Generate</button>
+        </form>
+    </div>
+    
+{% endblock %}

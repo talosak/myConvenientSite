@@ -3,6 +3,7 @@ import flask
 import flask_session
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
+import random
 from datetime import datetime
 
 app = flask.Flask(__name__)
@@ -95,3 +96,20 @@ def register():
     else:
         return flask.render_template("register.html")
     
+@app.route("/rng", methods=["GET", "POST"])
+def rng():
+     if flask.session["user_id"] is None:
+          return flask.redirect("/login")
+     if flask.request.method == "POST":
+          if not flask.request.form.get("min").isnumeric() or not flask.request.form.get("max").isnumeric():
+               flask.flash("Both numbers have to be positive integers", "flash-failure")
+               return flask.redirect("/rng") 
+          x = int(flask.request.form.get("min"))
+          y = int(flask.request.form.get("max"))
+          if x > y:
+               flask.flash("Minimum number cannot be greater than maximum number", "flash-failure")
+               return flask.redirect("/rng")
+          result = int(random.randrange(x, y))
+          return flask.render_template("rng-ed.html", result=result)
+     else:
+          return flask.render_template("rng.html")
