@@ -5,5 +5,12 @@
 {% endblock %}
 
 {% block main %}
-    Create reminder
+    <div class="container">
+        <form action="/reminderCreate" method="post">
+            <div class="row">
+                <h1 class="text-slightly-less-BIG">Create reminder<input type="text" class="text-slightly-more-less-BIG input-text-default mx-auto w-auto form-control" name="content"></h1>
+            </div> 
+            <button class="text-slightly-more-less-BIG btn btn-pink" type="submit">Create</button>
+        </form>
+    </div>
 {% endblock %}

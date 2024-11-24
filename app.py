@@ -35,7 +35,7 @@ def dateandtime():
      if flask.session.get("user_id") is None:
             return flask.redirect("/login")
      now = datetime.now()
-     date = now.strftime("%d/%m/%Y")
+     date = now.strftime("%A - %d/%m/%Y")
      time = now.strftime("%H:%M:%S")
      return flask.render_template("dateandtime.html", date=date, time=time)
     
@@ -118,6 +118,15 @@ def reminderCreate():
      if flask.session["user_id"] is None:
           return flask.redirect("/login")
      if flask.request.method == "POST":
+          reminderContent = flask.request.form.get("content")
+          creationTime = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+          if len(reminderContent) > 45:
+               flask.flash("Reminder can't be longer than 45 letters", "flash-failure")
+               return flask.redirect("/reminderCreate")
+          db = connectDB()
+          db.execute("INSERT INTO reminders (user_id, content, creationTime) VALUES (?, ?, ?)", (flask.session["user_id"], reminderContent, creationTime))
+          db.commit()
+          db.close()
           return flask.redirect("/reminders")
      else:
           return flask.render_template("reminderCreate.html")
