@@ -112,6 +112,15 @@ def reminders():
           return flask.redirect("/reminders")
      else:
           return flask.render_template("reminders.html", reminders=reminders)
+     
+@app.route("/reminderCreate", methods=["GET", "POST"])
+def reminderCreate():
+     if flask.session["user_id"] is None:
+          return flask.redirect("/login")
+     if flask.request.method == "POST":
+          return flask.redirect("/reminders")
+     else:
+          return flask.render_template("reminderCreate.html")
     
 @app.route("/rng", methods=["GET", "POST"])
 def rng():

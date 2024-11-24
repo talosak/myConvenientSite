@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-    <table class="table table-dark">
+    <table class="table table-dark text-slightly-less-BIG-than-slightly-more-less-BIG">
         <thead>
             <tr>
                 <th>Time of creation</th>
@@ -16,13 +16,14 @@
         <tbody>
             <form action="/reminders" method="post">
                 {% for reminder in reminders %}
-                    <tr>
+                    <tr class="m-auto w-auto">
                         <td>{{ reminder.creationTime }}</td>
                         <td>{{ reminder.content }}</td>
-                        <td><button type="submit" class="btn btn-pink" name="reminder-delete-button" value="{{ reminder.reminder_id }}">Delete</button></td>
+                        <td><button type="submit" class="btn mb-2" name="reminder-delete-button" value="{{ reminder.reminder_id }}"><img width="32" height="32" src="static/reminderDelete.png"></button></td>
                     </tr>
                 {% endfor %}
             </form>
         </tbody>
     </table>
+    <a href="/reminderCreate" class="btn btn-pink text-slightly-more-less-BIG">Add reminder</a>
 {% endblock %}

@@ -74,6 +74,9 @@
     font-size: 50px;
 }
 
+.text-slightly-less-BIG-than-slightly-more-less-BIG {
+    font-size: 35px;
+}
 table {
     margin-left: auto;
     margin-right: auto;
