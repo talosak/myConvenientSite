@@ -96,6 +96,23 @@ def register():
     else:
         return flask.render_template("register.html")
     
+@app.route("/reminders", methods=["GET", "POST"])
+def reminders():
+     if flask.session["user_id"] is None:
+          return flask.redirect("/login")
+     db = connectDB()
+     reminders = db.execute("SELECT * FROM reminders WHERE user_id = ?", (flask.session["user_id"],)).fetchall()
+     db.close()
+     if flask.request.method == "POST":
+          pressedButton = flask.request.form.get("reminder-delete-button")
+          db = connectDB()
+          db.execute("DELETE FROM reminders WHERE user_id = ? AND reminder_id = ?", (flask.session["user_id"], pressedButton,))
+          db.commit()
+          db.close()
+          return flask.redirect("/reminders")
+     else:
+          return flask.render_template("reminders.html", reminders=reminders)
+    
 @app.route("/rng", methods=["GET", "POST"])
 def rng():
      if flask.session["user_id"] is None:

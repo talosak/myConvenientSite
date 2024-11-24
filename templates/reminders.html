@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Reminders
+{% endblock %}
+
+{% block main %}
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>Time of creation</th>
+                <th>Content</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form action="/reminders" method="post">
+                {% for reminder in reminders %}
+                    <tr>
+                        <td>{{ reminder.creationTime }}</td>
+                        <td>{{ reminder.content }}</td>
+                        <td><button type="submit" class="btn btn-pink" name="reminder-delete-button" value="{{ reminder.reminder_id }}">Delete</button></td>
+                    </tr>
+                {% endfor %}
+            </form>
+        </tbody>
+    </table>
+{% endblock %}
