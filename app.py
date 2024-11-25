@@ -130,6 +130,35 @@ def reminderCreate():
           return flask.redirect("/reminders")
      else:
           return flask.render_template("reminderCreate.html")
+
+@app.route("/rename", methods=["GET", "POST"])
+def rename():
+    if flask.session["user_id"] is None:
+        return flask.redirect("/login")
+    if flask.request.method == "POST":
+        if not flask.request.form.get("newusername") or not flask.request.form.get("password"):
+            flask.flash("New username or password missing", "flash-failure")
+            return flask.redirect("/rename")
+        newusername = flask.request.form.get("newusername")
+        password = flask.request.form.get("password")
+        if len(newusername) > 12:
+             flask.flash("Username can't be longer than 12 letters", "flash-failure")
+             return flask.redirect("/rename")
+        db = connectDB()
+        if len(db.execute("SELECT * FROM users WHERE username = ?", (newusername,)).fetchall()) != 0:
+             db.close()
+             flask.flash("Username is already taken", "flash-failure")
+             return flask.redirect("/rename")
+        if not check_password_hash(db.execute("SELECT passwordHash FROM users WHERE id = ?", (flask.session["user_id"],)).fetchone()["passwordHash"], password):
+            db.close()
+            flask.flash("Incorrect password", "flash-failure")
+            return flask.redirect("/rename")
+        db.execute("UPDATE users SET username = ? WHERE id = ?", (newusername, flask.session["user_id"],))
+        db.commit()
+        db.close()
+        return flask.redirect("/")
+    else:
+        return flask.render_template("rename.html")
     
 @app.route("/rng", methods=["GET", "POST"])
 def rng():

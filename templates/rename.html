@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Rename
+{% endblock %}
+
+{% block main %}
+    <form action="/rename" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="text-slightly-less-BIG-than-slightly-more-less-BIG form-control mx-auto w-auto input-text-default" name="newusername" placeholder="New username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto input-text-default text-slightly-less-BIG-than-slightly-more-less-BIG" name="password" placeholder="Password" type="password">
+        </div>
+        <button class="btn btn-pink text-slightly-more-less-BIG" type="submit">Change username</button>
+    </form>    
+{% endblock %}
