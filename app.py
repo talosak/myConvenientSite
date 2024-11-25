@@ -144,7 +144,7 @@ def rng():
           if x > y:
                flask.flash("Minimum number cannot be greater than maximum number", "flash-failure")
                return flask.redirect("/rng")
-          result = int(random.randrange(x, y))
+          result = int(random.randrange(x, y + 1))
           return flask.render_template("rng-ed.html", result=result)
      else:
           return flask.render_template("rng.html")
