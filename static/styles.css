@@ -96,3 +96,11 @@ table {
 #calculator-result {
     font-size: 40px;
 }
+
+#cps-button {
+    font-size: 30px;
+    padding-left: 500px;
+    padding-right: 500px;
+    padding-top: 300px;
+    padding-bottom: 300px;
+}

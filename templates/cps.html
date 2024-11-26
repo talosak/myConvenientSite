@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    CPS
+{% endblock %}
+
+{% block main %}
+    
+    <script src="static/cpsScript.js" type="text/javascript"></script>
+    <div class="container">
+        <div class="row">
+            <h1 class="text-BIG col-12">Clicks per second test</h1>
+        </div>
+        <br><br>
+        <div class="row">
+            <form action="/cps" method="post" id="cps-form">
+                <button type="button" id="cps-button" class="btn btn-pink">Click me!</button>
+                <input type="hidden" id="cps-hidden-id" name="cps-hidden-name" value="">
+            </form>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-4 text-slightly-less-BIG-than-slightly-more-less-BIG">
+                <p id="cps-time-remaining">Time remaining: 10</p>
+            </div>
+            <div class="col-4 text-slightly-less-BIG-than-slightly-more-less-BIG">
+                <p>High score: {{ highCount }}</p>
+            </div>
+            <div class="col-4 text-slightly-less-BIG-than-slightly-more-less-BIG">
+                <p id="cps-clicks">Clicks: 0</p>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

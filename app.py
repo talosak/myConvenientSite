@@ -30,6 +30,30 @@ def calculator():
           return flask.redirect("/login")
      return flask.render_template("calculator.html")
 
+@app.route("/cps", methods=["GET", "POST"])
+def cps():
+    if flask.session.get("user_id") is None:
+        return flask.redirect("/login")
+    if flask.request.method == "POST":
+        clickCount = int(flask.request.form.get("cps-hidden-name"))
+        clickSpeed = float(clickCount) / 10
+        db = connectDB()
+        if db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone() is None:
+             db.execute("INSERT INTO cps_high_scores (user_id, highscore) VALUES (?, ?)", (flask.session["user_id"], clickCount))
+             db.commit()
+        elif int(db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone()["highscore"]) < clickCount:
+             db.execute("UPDATE cps_high_scores SET highscore = ? WHERE user_id = ?", (clickCount, flask.session["user_id"]))
+             db.commit()
+        highCount = db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone()["highscore"]
+        db.close()
+        highSpeed = float(highCount) / 10
+        return flask.render_template("cpsResults.html", clickCount=clickCount, clickSpeed=clickSpeed, highCount=highCount, highSpeed=highSpeed)
+    else:
+        db = connectDB()
+        highCount = db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone()["highscore"]
+        db.close()
+        return flask.render_template("cps.html", highCount=highCount)
+
 @app.route("/dateandtime")
 def dateandtime():
      if flask.session.get("user_id") is None:
