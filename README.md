@@ -246,6 +246,10 @@ Both numbers have to be positive integers. Non numeric, negative or decimal valu
 
 Upon a successful generation the "rng-ed.html" template is rendered, showing the result.
 
+## Author
+### Igor Selma
+### Username: talosak
+
 ## Licence
 MIT License
 
@@ -268,3 +272,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+# THANK YOU CS50! :3
