@@ -41,6 +41,13 @@ I made MCS **without** using the CS50 codespace or library. It was still in VSCo
 
 It took me about three weeks to complete the final project from start to finish.
 
+## Design
+Most of the styling i did with bootstrap. However i also created many of my own styles. Most of them are just recolors of the bootstrap classes or font size changes.
+
+My most used class of my own creation is "btn-pink", which is a custom style for the bootstrap "btn" class.
+
+I also made dark versions for the three types of flash alerts i used (success, failure, info)
+
 ## Features
 I will discuss each individual feature in more detail later, but they were intended to be simple, everyday things that most people do. They were all pretty simple to make, comparable to the different features of week 9's "Finance".
 
@@ -193,7 +200,51 @@ If the user does not have a highscore then it is inserted into the database.
 Then the "cpsResults.html" is rendered. It displays the amount of clicks during the test, the click speed (in clicks per second). It also shows the highest amount of clicks the user ever got, as well as their speed in that test.
 
 ## Date
-TODO
+Displays the current date, time and day of the week. It's route is "/dateandtime". It's template is "dateandtime.html". Requires being logged in.
+
+It gets the date and time from the datetime python library and displays via Jinja.
+
+Only updates on page refresh.
+
+## Reminders
+Allows the user to create and delete little reminders. It's routes are "/reminders" and "/reminderCreate". It's templates are "reminders.html" and reminderCreate.html". Requires being logged in.
+
+It is the only feature with two routes.
+
+Upon a "GET" request to "/reminders" the "reminders.html" template is rendered.
+
+All the reminders are generated with a Jinja "for" loop.
+
+Every delete button is of type "submit" and has a value equal to the given reminder's reminder_id. That way when a delete button is pressed, the id of the reminder that should be deleted can be read directly from the clicked button's value.
+
+There is also a button to add reminders, this is just a link that redirects the user to the "/reminderCreate" route.
+
+Upon a "GET" request to "/reminderCreate" the "reminderCreate.html" template is rendered. The user should fill type in the text input field what they want the content of their reminder to be. It **can** be empty, but **cannot** be longer than 45 characters.
+
+Upon a successful submit, a new reminder is inserted into the "reminders" table of the database with a reminder_id, a user_id, the content provided by the user as well as the date and time of creation obtained using the datetime python library.
+
+## Rename
+Allows the user to change their own username. It's route is "/rename". It's template is "rename.html" Requires being logged in.
+
+The user is expected to fill out a "POST" form, very similar to the one in Login. However here instead of inputting their current username, they should input the new username that they want.
+
+The requirements for a new username are a combination of the ones in Login and Register:
+* The username cannot be longer than 12 characters
+* The username must not be already taken by them or another user
+* The password must be correct
+
+Here the password is checked with the user's id, unlike Login where it is checked with their username.
+
+Upon a successful rename the new username replaces the old one in the "users" table and the user is redirected to Index.
+
+## RNG
+Generates a random number within a specified range. It's route is "/rng". It's templates are "rng.html" and "rng-ed.html". Requires being logged in.
+
+Upon a "GET" request the user is expected to fill out a "POST" form with a minimal and maximal number that they'd like to be in the random generation pool.
+
+Both numbers have to be positive integers. Non numeric, negative or decimal values are not supported and will return a failure message. 
+
+Upon a successful generation the "rng-ed.html" template is rendered, showing the result.
 
 ## Licence
 MIT License
