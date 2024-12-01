@@ -17,7 +17,7 @@ def connectDB():
 
 @app.route("/")
 def index():
-    if flask.session.get("user_id") is None:
+    if not flask.session.get("user_id"):
             return flask.redirect("/login")
     db = connectDB()
     username = db.execute("SELECT username FROM users WHERE id = ?", (flask.session["user_id"],)).fetchone()["username"]
@@ -26,13 +26,13 @@ def index():
 
 @app.route("/calculator")
 def calculator():
-     if flask.session.get("user_id") is None:
+     if not flask.session.get("user_id"):
           return flask.redirect("/login")
      return flask.render_template("calculator.html")
 
 @app.route("/cps", methods=["GET", "POST"])
 def cps():
-    if flask.session.get("user_id") is None:
+    if not flask.session.get("user_id"):
         return flask.redirect("/login")
     if flask.request.method == "POST":
         clickCount = int(flask.request.form.get("cps-hidden-name"))
@@ -40,23 +40,28 @@ def cps():
         db = connectDB()
         if db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone() is None:
              db.execute("INSERT INTO cps_high_scores (user_id, highscore) VALUES (?, ?)", (flask.session["user_id"], clickCount))
+             flask.flash("New high score", "flash-success")
              db.commit()
         elif int(db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone()["highscore"]) < clickCount:
              db.execute("UPDATE cps_high_scores SET highscore = ? WHERE user_id = ?", (clickCount, flask.session["user_id"]))
+             flask.flash("New high score", "flash-success")
              db.commit()
         highCount = db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone()["highscore"]
         db.close()
-        highSpeed = float(highCount) / 10
+        highSpeed = float(highCount) / 10 
         return flask.render_template("cpsResults.html", clickCount=clickCount, clickSpeed=clickSpeed, highCount=highCount, highSpeed=highSpeed)
     else:
         db = connectDB()
-        highCount = db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone()["highscore"]
+        if not db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone():
+             highCount = 0
+        else:
+             highCount = db.execute("SELECT highscore FROM cps_high_scores WHERE user_id = ?", (flask.session["user_id"],)).fetchone()["highscore"]
         db.close()
         return flask.render_template("cps.html", highCount=highCount)
 
 @app.route("/dateandtime")
 def dateandtime():
-     if flask.session.get("user_id") is None:
+     if not flask.session.get("user_id"):
             return flask.redirect("/login")
      now = datetime.now()
      date = now.strftime("%A - %d/%m/%Y")
@@ -87,7 +92,7 @@ def login():
      
 @app.route("/logout")
 def logout():
-    if flask.session.get("user_id") is None:
+    if not flask.session.get("user_id"):
             return flask.redirect("/login")
     flask.session.clear()
     return flask.redirect("/")
@@ -122,7 +127,7 @@ def register():
     
 @app.route("/reminders", methods=["GET", "POST"])
 def reminders():
-     if flask.session["user_id"] is None:
+     if not flask.session.get("user_id"):
           return flask.redirect("/login")
      db = connectDB()
      reminders = db.execute("SELECT * FROM reminders WHERE user_id = ?", (flask.session["user_id"],)).fetchall()
@@ -139,7 +144,7 @@ def reminders():
      
 @app.route("/reminderCreate", methods=["GET", "POST"])
 def reminderCreate():
-     if flask.session["user_id"] is None:
+     if not flask.session.get("user_id"):
           return flask.redirect("/login")
      if flask.request.method == "POST":
           reminderContent = flask.request.form.get("content")
@@ -157,7 +162,7 @@ def reminderCreate():
 
 @app.route("/rename", methods=["GET", "POST"])
 def rename():
-    if flask.session["user_id"] is None:
+    if not flask.session.get("user_id"):
         return flask.redirect("/login")
     if flask.request.method == "POST":
         if not flask.request.form.get("newusername") or not flask.request.form.get("password"):
@@ -186,7 +191,7 @@ def rename():
     
 @app.route("/rng", methods=["GET", "POST"])
 def rng():
-     if flask.session["user_id"] is None:
+     if not flask.session.get("user_id"):
           return flask.redirect("/login")
      if flask.request.method == "POST":
           if not flask.request.form.get("min").isnumeric() or not flask.request.form.get("max").isnumeric():
